@@ -1,6 +1,7 @@
 import { ProxyState } from "../AppState.js";
 import { getCarForm } from "../Components/CarForm.js";
 import { carsService } from "../Services/CarsService.js";
+import { getFormData } from "../Utils/FormHandler.js";
 import { Pop } from "../Utils/Pop.js";
 
 
@@ -44,26 +45,11 @@ export class CarsController {
       // @ts-ignore
       window.event.preventDefault()
       // @ts-ignore
-      let form = window.event.target
-
-      let newCar = {
-        // @ts-ignore
-        make: form.make.value,
-        // @ts-ignore
-        model: form.model.value,
-        // @ts-ignore
-        year: form.year.value,
-        // @ts-ignore
-        price: form.price.value,
-        // @ts-ignore
-        imgUrl: form.img.value,
-        // @ts-ignore
-        description: form.description.value,
-      }
-      await carsService.createCar(newCar)
+      const form = window.event.target
+      const formData = getFormData(form)
+      await carsService.createCar(formData)
       // @ts-ignore
       form.reset()
-      // NOTE replaced by listeners in constructor
     } catch (error) {
       console.error('[Create Car]', error)
       Pop.error(error)
@@ -107,7 +93,7 @@ export class CarsController {
         // @ts-ignore
         price: form.price.value,
         // @ts-ignore
-        imgUrl: form.img.value,
+        img: form.img.value,
         // @ts-ignore
         description: form.description.value
       }
